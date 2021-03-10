@@ -3,6 +3,21 @@ ARG PHP_VERSION=7.4
 FROM laradock/php-fpm:latest-${PHP_VERSION}
 
 ###########################################################################
+# Git:
+###########################################################################
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git && \
+    apt-get install -y vim
+
+###########################################################################
+# Composer:
+###########################################################################
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+###########################################################################
 # Xdebug:
 ###########################################################################
 
@@ -15,10 +30,18 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install xdebug-2.5.5; \
     else \
-      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         pecl install xdebug-2.9.0; \
       else \
-        pecl install xdebug-2.9.8; \
+        if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+          pecl install xdebug-2.9.8; \
+        else \
+          if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+            pecl install xdebug-2.9.8; \
+          else \
+            echo "xDebug 3 required, not supported."; \
+          fi \
+        fi \
       fi \
     fi \
   fi && \
@@ -26,22 +49,6 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 ;fi
 
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
-RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-  sed -i "s/xdebug.remote_host=/xdebug.client_host=/" /usr/local/etc/php/conf.d/xdebug.ini && \
-  sed -i "s/xdebug.remote_connect_back=0/xdebug.discover_client_host=false/" /usr/local/etc/php/conf.d/xdebug.ini && \
-  sed -i "s/xdebug.remote_port=9000/xdebug.client_port=9003/" /usr/local/etc/php/conf.d/xdebug.ini && \
-  sed -i "s/xdebug.profiler_enable=0/; xdebug.profiler_enable=0/" /usr/local/etc/php/conf.d/xdebug.ini && \
-  sed -i "s/xdebug.profiler_output_dir=/xdebug.output_dir=/" /usr/local/etc/php/conf.d/xdebug.ini && \
-  sed -i "s/xdebug.remote_mode=req/; xdebug.remote_mode=req/" /usr/local/etc/php/conf.d/xdebug.ini && \
-  sed -i "s/xdebug.remote_autostart=0/xdebug.start_with_request=yes/" /usr/local/etc/php/conf.d/xdebug.ini && \
-  sed -i "s/xdebug.remote_enable=0/xdebug.mode=debug/" /usr/local/etc/php/conf.d/xdebug.ini \
-;else \
-  sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/etc/php/conf.d/xdebug.ini && \
-  sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /usr/local/etc/php/conf.d/xdebug.ini \
-;fi
-
-RUN sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /usr/local/etc/php/conf.d/xdebug.ini
 
 ###########################################################################
 # Redis
@@ -127,6 +134,8 @@ RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
 ###########################################################################
 
 WORKDIR /var/www
+
+RUN chown -R www-data:www-data /var/www
 
 CMD ["php-fpm"]
 
