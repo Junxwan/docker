@@ -1,6 +1,8 @@
 version: '3.4'
 
 services:
+
+### php ##################################
   php:
     build:
       context: ./php-fpm
@@ -13,7 +15,7 @@ services:
         - INSTALL_OPCACHE=${PHP_INSTALL_OPCACHE}
         - INSTALL_MYSQLI=${PHP_INSTALL_MYSQLI}
         - INSTALL_IMAGE_OPTIMIZERS=${PHP_INSTALL_IMAGE_OPTIMIZERS}
-        
+    
     volumes: 
       - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
       - ${APP_HOST}:/var/www
@@ -21,7 +23,8 @@ services:
 
     expose:
       - 9000
-  
+
+### nginx ##################################
   nginx:
     build:
       context: ./nginx
@@ -35,7 +38,46 @@ services:
 
     ports:
       - ${NGINX_HOST_HTTP_PORT}:80
-      - 8081:81
 
     depends_on:
         - php
+
+### mysql ##################################
+  mysql:
+    build:
+      context: ./mysql
+      args:
+        - MYSQL_VERSION=${MYSQL_VERSION}
+
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${TIMEZONE}
+
+    volumes:
+      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+      
+    ports:
+      - ${MYSQL_PORT}:3306
+
+### phpmyadmin ##################################
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+
+    environment:
+        - PMA_ARBITRARY=1
+        - PMA_HOST=mysql
+        - MYSQL_USER=${PMA_USER}
+        - MYSQL_PASSWORD=${PMA_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${PMA_ROOT_PASSWORD}
+        - MAX_EXECUTION_TIME=${PMA_MAX_EXECUTION_TIME}
+        - MEMORY_LIMIT=${PMA_MEMORY_LIMIT}
+        - UPLOAD_LIMIT=${PMA_UPLOAD_LIMIT}
+
+    ports:
+      - ${PMA_PORT}:80
+
+    depends_on:
+      - php
+      - mysql

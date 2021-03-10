@@ -1,5 +1,24 @@
 APP_HOST=./app
-PHP_VERSION=5.6
+PHP_VERSION=latest
+TIMEZONE=UTC
+DATA_PATH_HOST=./data
+
+### php extention #################################################
+PHP_INSTALL_XDEBUG=true
+PHP_INSTALL_REDIS=true
+PHP_INSTALL_MONGODB=false
+PHP_INSTALL_MEMCACHED=false
+PHP_INSTALL_OPCACHE=true
+PHP_INSTALL_MYSQLI=true
+PHP_INSTALL_IMAGE_OPTIMIZERS=false
+PHP_HOST_LOG_PATH=./logs/php/
+
+### mysql #################################################
+MYSQL_VERSION=latest
+MYSQL_USER=root
+MYSQL_PASSWORD=root
+MYSQL_PORT=3306
+MYSQL_ROOT_PASSWORD=root
 
 ### nginx #################################################
 NGINX_HOST_HTTP_PORT=8080
@@ -7,11 +26,11 @@ NGINX_HOST_LOG_PATH=./logs/nginx/
 NGINX_SITES_PATH=./nginx/sites/
 NGINX_PHP_UPSTREAM_CONTAINER=php
 
-### php extention #################################################
-PHP_INSTALL_XDEBUG=TRUE
-PHP_INSTALL_REDIS=TRUE
-PHP_INSTALL_MONGODB=FALSE
-PHP_INSTALL_MEMCACHED=FALSE
-PHP_INSTALL_OPCACHE=TRUE
-PHP_INSTALL_MYSQLI=TRUE
-PHP_INSTALL_IMAGE_OPTIMIZERS=FALSE
+### phpmyadmin #################################################
+PMA_USER=root
+PMA_PASSWORD=root
+PMA_ROOT_PASSWORD=root
+PMA_PORT=8081
+PMA_MAX_EXECUTION_TIME=600
+PMA_MEMORY_LIMIT=256M
+PMA_UPLOAD_LIMIT=2G
