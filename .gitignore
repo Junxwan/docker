@@ -2,3 +2,4 @@
 logs/nginx/*.log
 data/mysql/*
 data/redis/*
+app/*
