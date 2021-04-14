@@ -28,6 +28,16 @@ services:
       - mysql
       - redis
 
+### golang ##################################
+  golang:
+    build:
+      context: ./golang
+      args:
+        - VERSION=${GOLANG_VERSION}
+        
+    volumes:
+      - ${APP_HOST}:/var/www
+
 ### nginx ##################################
   nginx:
     build:

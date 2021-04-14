@@ -1,7 +1,12 @@
 APP_HOST=./app
-PHP_VERSION=latest
 TIMEZONE=UTC
 DATA_PATH_HOST=./data
+
+### php #################################################
+PHP_VERSION=latest
+
+### golang #################################################
+GOLAND_VERSION=latest
 
 ### php extention #################################################
 PHP_INSTALL_XDEBUG=true
