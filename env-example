@@ -25,6 +25,12 @@ MYSQL_PASSWORD=root
 MYSQL_PORT=3306
 MYSQL_ROOT_PASSWORD=root
 
+### postgres #################################################
+POSTGRES_VERSION=latest
+POSTGRES_USER=root
+POSTGRES_PASSWORD=root
+POSTGRES_PORT=5432
+
 ### nginx #################################################
 NGINX_HOST_HTTP_PORT=8080
 NGINX_HOST_LOG_PATH=./logs/nginx/
