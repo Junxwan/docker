@@ -4,6 +4,8 @@ DATA_PATH_HOST=./data
 
 ### php #################################################
 PHP_VERSION=latest
+PHP_HOST_PORT=8080
+PHP_MYADMIN_HOST_PORT=8081
 
 ### golang #################################################
 GOLAND_VERSION=latest
@@ -32,7 +34,6 @@ POSTGRES_PASSWORD=root
 POSTGRES_PORT=5432
 
 ### nginx #################################################
-NGINX_HOST_HTTP_PORT=8080
 NGINX_HOST_LOG_PATH=./logs/nginx/
 NGINX_SITES_PATH=./nginx/sites/
 NGINX_PHP_UPSTREAM_CONTAINER=php
