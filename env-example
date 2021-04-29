@@ -5,7 +5,6 @@ DATA_PATH_HOST=./data
 ### php #################################################
 PHP_VERSION=latest
 PHP_HOST_PORT=8080
-PHP_MYADMIN_HOST_PORT=8081
 
 ### golang #################################################
 GOLAND_VERSION=latest
