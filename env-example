@@ -9,6 +9,9 @@ PHP_HOST_PORT=8080
 ### golang #################################################
 GOLAND_VERSION=latest
 
+### python #################################################
+PYTHON_VERSION=latest
+
 ### php extention #################################################
 PHP_INSTALL_XDEBUG=true
 PHP_INSTALL_REDIS=true

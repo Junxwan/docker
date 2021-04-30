@@ -38,6 +38,18 @@ services:
     volumes:
       - ${APP_HOST}:/var/www
 
+### python ##################################
+  python:
+    build:
+      context: ./python
+      args:
+        - VERSION=${PYTHON_VERSION}
+
+    command: sleep infinity
+
+    volumes:
+      - ${APP_HOST}:/var/www
+
 ### nginx ##################################
   nginx:
     build:
