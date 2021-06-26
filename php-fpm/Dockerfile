@@ -2,14 +2,14 @@ ARG PHP_VERSION=7.4
 
 FROM laradock/php-fpm:latest-${PHP_VERSION}
 
-###########################################################################
-# Git:
-###########################################################################
-
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y git && \
-    apt-get install -y vim
+    apt-get install -y git \
+    vim \
+    libzip-dev zip unzip && \
+    docker-php-ext-configure zip && \
+    docker-php-ext-install zip && \
+    php -m | grep -q 'zip'
 
 ###########################################################################
 # Composer:

@@ -64,6 +64,7 @@ services:
 
     ports:
       - ${PHP_HOST_PORT}:80
+      - 9100:9100
 
 ### mysql ##################################
   mysql:
